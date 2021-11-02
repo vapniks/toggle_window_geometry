@@ -12,7 +12,8 @@ match found. Then the window is resized to match the next geometry in the list, 
 match was the last one in the list, then the first one is used.
 
 If no geometries are provided on the command line then 100%x100% & 100%x50% are used, 
-i.e. toggle between full size & half height windows.
+i.e. toggle between full size & half height windows (you can alter these default values
+by altering the script).
 
 Options coming before -- are passed to "xdotool search" to identify the window to resize. 
 You must quote anchor chars (e.g. ^ & $) in the window PATTERN, e.g. '\^xterm\$'
