@@ -1,0 +1,21 @@
+Usage: toggle_window_geometry.zsh [xdotool search options] PATTERN -- X1,Y1:W1xH1 X2,Y2:W2xH2 ...
+
+Toggle the geometry of a window between the list of geometries provided on the command line. 
+Each geometry takes the form X,Y:WxH or X,Y or WxH, where X & Y define the location of the top left
+corner of the window, and WxH defines the width & height. Missing values (e.g. for X,Y or WxH forms)
+will be replaced with values matching the current state of the selected window. 
+Each of X,Y,W & H may be either a pixel count or a screen percentage. 
+Examples:  0,140:100%x80%,  0,140,  100%x80%, 1280x576
+
+The current window geometry is compared with those provided on the command line, and the nearest 
+match found. Then the window is resized to match the next geometry in the list, or if the nearest 
+match was the last one in the list, then the first one is used.
+
+If no geometries are provided on the command line then 100%x100% & 100%x50% are used, 
+i.e. toggle between full size & half height windows.
+
+Options coming before -- are passed to "xdotool search" to identify the window to resize. 
+You must quote anchor chars (e.g. ^ & $) in the window PATTERN, e.g. '\^xterm\$'
+
+Example: toggle_window_geometry.zsh --onlyvisible --class "\^xterm" -- 50%x50% 100%x50% 100%x100%
+  
