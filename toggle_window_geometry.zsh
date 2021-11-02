@@ -53,8 +53,8 @@ fi
 currdims=("${(f)$(xdotool getwindowgeometry $winid)}")
 screendims="$(xdotool getdisplaygeometry)"
 local currx curry currwidth currheight screenwidth screenheight
-currx="${${currdims[2]}//* (#b)([0-9]##),[0-9]##*/${match}}"
-curry="${${currdims[2]}//* (#b)[0-9]##,([0-9]##)*/${match}}"
+currx="${${currdims[2]}//* (#b)([-0-9]##),[-0-9]##*/${match}}"
+curry="${${currdims[2]}//* (#b)[-0-9]##,([-0-9]##)*/${match}}"
 currwidth="${${currdims[3]}//* (#b)([0-9]##)x[0-9]##*/${match}}"
 currheight="${${currdims[3]}//* (#b)[0-9]##x([0-9]##)*/${match}}"
 screenwidth="${screendims// [0-9]##}"
@@ -62,7 +62,7 @@ screenheight="${screendims//[0-9]## }"
 
 geomx() {
     if [[ ${1} == *,* ]]; then
-	local dim="${1//(#b)([0-9%]##),[0-9%]##:*/${match}}"
+	local dim="${1//(#b)([-0-9%]##),[-0-9%]##:*/${match}}"
 	if [[ $dim == *%* ]]; then
 	    print "$((${dim//\%}*screenwidth/100))"
 	else
@@ -75,7 +75,7 @@ geomx() {
 
 geomy() {
     if [[ ${1} == *,* ]]; then
-	local dim="${1//[0-9%]##,(#b)([0-9%]##):*/${match}}"
+	local dim="${1//[-0-9%]##,(#b)([-0-9%]##):*/${match}}"
 	if [[ $dim == *%* ]]; then
 	    print "$((${dim//\%}*screenheight/100))"
 	else
@@ -115,8 +115,8 @@ geomheight() {
 local i geom best dist mindist=$((2*(screenwidth**2+screenheight**2)))
 foreach i ({1..${#geometries}}) {
     geom=${geometries[$i]}
-    if [[ ${geom} == *([0-9%]##,[0-9%]##|[0-9%]##x[0-9%]##)* ]]; then
-	dist=$((((currx-$(geomx ${geom}))**2+(curry-$(geomy ${geom}))**2+(currwidth-$(geomwidth ${geom}))**2+(currheight-$(geomheight ${geom}))**2)))
+    if [[ ${geom} == *([-0-9%]##,[-0-9%]##|[0-9%]##x[0-9%]##)* ]]; then
+	dist=$((((currx-($(geomx ${geom})))**2+(curry-($(geomy ${geom})))**2+(currwidth-$(geomwidth ${geom}))**2+(currheight-$(geomheight ${geom}))**2)))
 	if ((dist < mindist)); then
 	    mindist=${dist}
 	    best=${i}
