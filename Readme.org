@@ -20,3 +20,4 @@ You must quote anchor chars (e.g. ^ & $) in the window PATTERN, e.g. '\^xterm\$'
 
 Example: toggle_window_geometry.zsh --onlyvisible --class "\^xterm" -- 50%x50% 100%x50% 100%x100%
   
+To display this help: toggle_window_geometry.zsh -h
